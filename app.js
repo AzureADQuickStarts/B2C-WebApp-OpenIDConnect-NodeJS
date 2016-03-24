@@ -81,11 +81,14 @@ passport.use(new OIDCStrategy({
     realm: config.creds.realm,
     clientID: config.creds.clientID,
     clientSecret: config.creds.clientSecret,
-    oidcIssuer: config.creds.issuer,
     identityMetadata: config.creds.identityMetadata,
     skipUserProfile: config.creds.skipUserProfile,
     responseType: config.creds.responseType,
-    responseMode: config.creds.responseMode
+    responseMode: config.creds.responseMode,
+    tenantName: config.creds.tenantName,
+    validateIssuer: config.creds.validateIssuer,
+    passReqToCallback: config.creds.passReqToCallback,
+    loggingLevel: config.creds.loggingLevel
   },
   function(iss, sub, profile, accessToken, refreshToken, done) {
     if (!profile.email) {
@@ -147,47 +150,23 @@ app.get('/login',
     res.redirect('/');
 });
 
-// POST /auth/openid
+// POST /
 //   Use passport.authenticate() as route middleware to authenticate the
-//   request.  The first step in OpenID authentication will involve redirecting
-//   the user to their OpenID provider.  After authenticating, the OpenID
-//   provider will redirect the user back to this application at
-//   /auth/openid/return
-app.get('/auth/openid',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
-  function(req, res) {
-    log.info('Authenitcation was called in the Sample');
-    res.redirect('/');
-  });
-
-// GET /auth/openid/return
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function function will be called,
-//   which, in this example, will redirect the user to the home page.
-app.get('/auth/openid/return',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
-  function(req, res) {
-    log.info('We received a return from AzureAD.');
-    res.redirect('/');
-  });
-
-// GET /auth/openid/return
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function function will be called,
-//   which, in this example, will redirect the user to the home page.
-app.post('/auth/openid/return',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
-  function(req, res) {
-    log.info('We received a return from AzureAD.');
-    res.redirect('/');
-  });
+//   request.
+app.post('/',
+    passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
+    function(req, res) {
+        log.info('We received a POST from AzureAD.');
+        log.info(req.body.id_token);
+        res.redirect('/');
+    });
 
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+
+
 
 app.listen(3000);
 
