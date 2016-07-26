@@ -1,15 +1,27 @@
 {
-    "name": "passport-azure-ad-login-oidc",
-    "version": "0.0.1",
-    "dependencies": {
-        "express": "3.x",
-        "ejs": ">= 0.0.0",
-        "ejs-locals": ">= 0.0.0",
-        "restify": "*",
-        "mongoose": "*",
-        "bunyan": "*",
-        "assert-plus": "*",
-        "passport": "*",
-        "passport-azure-ad": "*"
-    }
+  "name": "passport-azure-ad-b2c-login-oidc",
+  "version": "0.0.1",
+  "main": "app.js",
+  "keywords": [
+    "azuread",
+    "b2c"
+  ],
+  "license": "MIT",
+  "author": "azuread",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azureadquickstarts/b2c-webapp-openidconnect-nodejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azureadquickstarts/b2c-webapp-openidconnect-nodejs/issues"
+  },
+  "homepage": "https://github.com/azureadquickstarts/b2c-webapp-openidconnect-nodejs",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "express-session": "^1.14.0",
+    "passport": "^0.3.2",
+    "passport-azure-ad": "^2.0.0"
+  }
 }

@@ -1,9 +1,10 @@
 <% if (!user) { %>
-	<h2>Welcome! Please log in.</h2>
-	<a href="/login/?p=B2C_1_B2CSU">Sign In</a>
-	<a href="/login/?p=b2ctestsigninpolicy">Sign Up</a>
+	<h2>Welcome to Azure AD B2C! Please sign up, or sign in if you already have an account.</h2>
+	<a href="/sign-in?p=<%= config.signInPolicy %>">Sign In</a>
+	<a href="/sign-up?p=<%= config.signUpPolicy %>">Sign Up</a>
 <% } else { %>
-	<h2>Hello, <%= user.displayName %>.</h2>
-	<a href="/account">Account Info</a></br>
+	<h2>Hello, <%= user._json.name %>.</h2>
+	<a href="/account">View your account info</a>
+	<br />
 	<a href="/logout">Log Out</a>
 <% } %>
