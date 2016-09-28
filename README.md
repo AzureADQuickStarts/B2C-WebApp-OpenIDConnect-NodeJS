@@ -9,9 +9,21 @@ We've released all of the source code for this example in GitHub under an MIT li
 
 Getting started with the sample is easy. It is configured to run out of the box with minimal setup.
 
-### Step 1: Register an Azure AD Tenant
+### Step 1: Register an web application in B2C Azure AD Tenant
 
-To use this sample you will need a Windows Azure Active Directory Tenant. If you're not sure what a tenant is or how you would get one, read [What is an Azure AD tenant](http://technet.microsoft.com/library/jj573650.aspx)? or [Sign up for Azure as an organization](http://azure.microsoft.com/en-us/documentation/articles/sign-up-organization/). These docs should get you started on your way to using Windows Azure AD.
+If you don't have an Azure AD B2C Tenant yet, please [create one](https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-get-started/).
+
+Next let's register an web application in your tenant.
+
+* In the main page of your tenant, click `Manage B2C settings`, and you will be redirected to the settings page.
+
+* Click `Applications`, then click `Add`. Enter a name like 'my_b2c_app', and switch the `Web App / Web API` option to yes. After that, enter 'http://localhost:3000/auth/openid/return' into the `Reply URL` field. Then click `Generate key` to generate a app key, and save it somewhere. This app key is the client secret of your application. Now click `Create` button to finish registration.
+
+* Click the application you just created, copy the `Application ID` field and save it somewhere. This value is the clientID of your application.
+
+* Now let's add some policies we will use for this sample. In the setting page, add a sign-in policy, a sign-up poligy, a profile-editing policy and a password-reset policy. When you add the policies, use the names 'signin', 'signup', 'updateprofile' and 'resetpassword' respectively. For `Identity providers`, choose `Email signup`; for `Application claims`, choose `Email Addresses`, `User's Object ID` and any other claims you want; for `Sign-up attributes`, choose `Email Address` and anything else you like.
+
+* Now we have a B2C web application and policies registered. Note that Azure AD adds a 'B2C_1_' prefix automatically to all policy names, so the policy names we will use are actually 'B2C_1_signin', 'B2C_1_signup', 'B2C_1_updateprofile' and 'B2C_1_resetpassword'. 
 
 ### Step 2: Download node.js for your platform
 To successfully use this sample, you need a working installation of Node.js.
@@ -22,14 +34,41 @@ Next, clone the sample repo and install the NPM.
 
 From your shell or command line:
 
-* `$ git clone git@github.com:AzureADSamples/B2C-WebApp-OpenIDConnect-NodeJS.git`
+* `$ git clone git@github.com:AzureADQuickStarts/B2C-WebApp-OpenIDConnect-NodeJS.git`
 * `$ npm install`
 
-### Step 5: Configure your server using config.js
+### Step 4: Configure your server
 
-**NOTE:** You may also pass the `issuer:` value if you wish to validate that as well.
+* Provide the parameters in `exports.creds` in config.js as instructed.
 
-### Step 6: Run the application
+* Update `exports.destroySessionUrl` in config.js, using your tenant name and signin policy name. If you want to redirect the users to a different url after they log out, update the  `post_logout_redirect_uri` part as well.
+
+* Set `exports.useMongoDBSessionStore` in config.js to false, if you want to use the
+default session store for `express-session`. Note that the default session store is
+not suitable for production, you must use mongoDB or other [compatible session stores](https://github.com/expressjs/session#compatible-session-stores).
+
+* Update `exports.databaseUri`, if you want to use mongoDB session store and a different database uri.
+
+* Update `exports.mongoDBSessionMaxAge`. Here you can specify how long you want
+to keep a session in mongoDB. The unit is second(s).
+
+**NOTE:** Session middleware is required to use OIDCStrategy. We keep nonce, state, etc in session for validation purpose; we also keep `user` in session for a persistent login session.
+
+If you don't want a persistent login session (you want the user to enter username and password etc for every request to access protected resources), you can achieve it by using the following code. 
+
+```
+passport.authenticate('azuread-openidconnect', {session: false});
+```
+
+### Step 5: Run the application
+
+* Start mongoDB service.
+
+If you are using mongoDB session store in this app, you have to install mongoDB and start the service first. If you are using the default session store, you can skip this step.
+
+* Run the app.
+
+Use the following command in terminal.
 
 * `$ node app.js`
 
