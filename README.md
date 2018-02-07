@@ -9,11 +9,11 @@ We've released all of the source code for this example in GitHub under an MIT li
 
 Getting started with the sample is easy. It is configured to run out of the box with minimal setup.
 
-### Step 1: Register an web application in B2C Azure AD Tenant
+### Step 1: Register a web application in B2C Azure AD Tenant
 
 If you don't have an Azure AD B2C Tenant yet, please [create one](https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-get-started/).
 
-Next let's register an web application in your tenant.
+Next let's register a web application in your tenant.
 
 * In the main page of your tenant, click `Manage B2C settings`, and you will be redirected to the settings page.
 
