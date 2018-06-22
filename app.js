@@ -194,7 +194,13 @@ function ensureAuthenticated(req, res, next) {
 };
 
 app.get('/', function(req, res) {
-  res.render('index', { user: req.user });
+  res.render('index', {
+    user: req.user,
+    signIn: "/login/?p=" + config.policyNames.signIn,
+    signUp: "/login/?p=" + config.policyNames.signUp,
+    updateProfile: "/login/?p=" + config.policyNames.updateProfile,
+    resetPassword: "/login/?p=" + config.policyNames.resetPassword
+  });
 });
 
 // '/account' is only available to logged in user
