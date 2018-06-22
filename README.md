@@ -41,6 +41,8 @@ From your shell or command line:
 
 * Provide the parameters in `exports.creds` in config.js as instructed.
 
+* Provide the policy names in `exports.policyNames` in config.js as instructed.
+
 * Update `exports.destroySessionUrl` in config.js, using your tenant name and signin policy name. If you want to redirect the users to a different url after they log out, update the  `post_logout_redirect_uri` part as well.
 
 * Set `exports.useMongoDBSessionStore` in config.js to false, if you want to use the

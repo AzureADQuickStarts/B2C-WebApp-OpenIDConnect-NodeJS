@@ -68,12 +68,24 @@ exports.creds = {
   clockSkew: null,
 };
 
+// The names of the policies you set up in your AD B2C tenant
+// Change to reflect the names you used in your AD B2C tenant
+var policyNames = {
+  signin: 'B2C_1_signin',
+  signup: 'B2C_1_signup',
+  updateProfile: 'B2C_1_updateprofile',
+  resetPassword: 'B2C_1_resetpassword'
+}
+
+exports.policyNames = policyNames;
+
 // The url you need to go to destroy the session with AAD, 
 // replace <tenant_name> with your tenant name, and
 // replace <signin_policy_name> with your signin policy name.
 exports.destroySessionUrl = 
   'https://login.microsoftonline.com/<tenant_name>.onmicrosoft.com/oauth2/v2.0/logout' +
-  '?p=<signin_policy_name>' +
+  '?p=' +
+  policyNames.signIn +
   '&post_logout_redirect_uri=http://localhost:3000';
 
 // If you want to use the mongoDB session store for session middleware; otherwise we will use the default
